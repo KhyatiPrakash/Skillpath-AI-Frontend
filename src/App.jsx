@@ -9,8 +9,11 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+
       <Route path="/about" element={<AboutPage />} />
+
       <Route path="/contact" element={<ContactPage />} />
+
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
