@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+
 import { getCareerById } from "../api/careerApi";
 
 const CareerDetailsPage = () => {
@@ -16,7 +18,7 @@ const CareerDetailsPage = () => {
         const data = await getCareerById(id);
         setCareer(data);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching career:", error);
       } finally {
         setLoading(false);
       }
@@ -25,7 +27,45 @@ const CareerDetailsPage = () => {
     fetchCareer();
   }, [id]);
 
-  if (loading) return <h2>Loading...</h2>;
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+
+        <div
+          className="container"
+          style={{
+            padding: "60px 0",
+            minHeight: "70vh",
+          }}
+        >
+          <h2>Loading...</h2>
+        </div>
+
+        <Footer />
+      </>
+    );
+  }
+
+  if (!career) {
+    return (
+      <>
+        <Navbar />
+
+        <div
+          className="container"
+          style={{
+            padding: "60px 0",
+            minHeight: "70vh",
+          }}
+        >
+          <h2>Career not found.</h2>
+        </div>
+
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -34,36 +74,235 @@ const CareerDetailsPage = () => {
       <div
         className="container"
         style={{
-          maxWidth: "900px",
-          margin: "40px auto",
+          padding: "60px 0",
         }}
       >
-        <h1>{career.title}</h1>
+        {/* Back Button */}
 
-        <p>{career.description}</p>
+        <Link
+          to="/careers"
+          style={{
+            display: "inline-block",
+            marginBottom: "25px",
+            color: "#4F46E5",
+            textDecoration: "none",
+            fontWeight: "600",
+          }}
+        >
+          ← Back to Careers
+        </Link>
 
-        <hr />
+        {/* Header */}
 
-        <h3>Category</h3>
-        <p>{career.category}</p>
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: "20px",
+            padding: "35px",
+            boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
+            marginBottom: "35px",
+          }}
+        >
+          <span
+            style={{
+              background: "#EEF2FF",
+              color: "#4338CA",
+              padding: "8px 18px",
+              borderRadius: "20px",
+              fontWeight: "600",
+            }}
+          >
+            {career.category}
+          </span>
 
-        <h3>Average Salary</h3>
-        <p>{career.averageSalary}</p>
+          <h1
+            style={{
+              marginTop: "20px",
+              marginBottom: "15px",
+            }}
+          >
+            {career.title}
+          </h1>
 
-        <h3>Difficulty</h3>
-        <p>{career.difficulty}</p>
+          <p
+            style={{
+              color: "#666",
+              fontSize: "18px",
+              lineHeight: "1.8",
+            }}
+          >
+            {career.description}
+          </p>
 
-        <h3>Required Skills</h3>
+          <div
+            style={{
+              display: "flex",
+              gap: "40px",
+              flexWrap: "wrap",
+              marginTop: "25px",
+              fontWeight: "600",
+              fontSize: "18px",
+            }}
+          >
+            <span>💰 {career.averageSalary}</span>
 
-        <ul>
-          {career.requiredSkills.map((skill, index) => (
-            <li key={index}>{skill}</li>
-          ))}
-        </ul>
+            <span>📈 {career.difficulty}</span>
+          </div>
+        </div>
 
-        <h3>Future Scope</h3>
+        {/* Required Skills */}
 
-        <p>{career.futureScope}</p>
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: "20px",
+            padding: "30px",
+            boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
+            marginBottom: "30px",
+          }}
+        >
+          <h2>Required Skills</h2>
+
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "12px",
+              marginTop: "20px",
+            }}
+          >
+            {career.requiredSkills?.map((skill, index) => (
+              <span
+                key={index}
+                style={{
+                  background: "#EEF2FF",
+                  color: "#4338CA",
+                  padding: "10px 18px",
+                  borderRadius: "25px",
+                  fontWeight: "600",
+                }}
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Learning Roadmap */}
+
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: "20px",
+            padding: "30px",
+            boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
+            marginBottom: "30px",
+          }}
+        >
+          <h2>Learning Roadmap</h2>
+
+          {career.roadmap?.length ? (
+            <ol
+              style={{
+                marginTop: "20px",
+                paddingLeft: "20px",
+                lineHeight: "2",
+                fontSize: "17px",
+              }}
+            >
+              {career.roadmap.map((step, index) => (
+                <li key={index}>{step}</li>
+              ))}
+            </ol>
+          ) : (
+            <p>No roadmap available.</p>
+          )}
+        </div>
+
+        {/* Learning Resources */}
+
+        <div
+         style={{
+         background: "#fff",
+    borderRadius: "20px",
+    padding: "30px",
+    boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
+    marginBottom: "30px",
+  }}
+>
+  <h2>Learning Resources</h2>
+
+  {career.learningResources?.length > 0 ? (
+    <div
+      style={{
+        marginTop: "20px",
+        display: "grid",
+        gap: "18px",
+      }}
+    >
+      {career.learningResources.map((resource, index) => (
+        <div
+          key={index}
+          style={{
+            border: "1px solid #e5e7eb",
+            borderRadius: "12px",
+            padding: "18px",
+          }}
+        >
+          <h3>{resource.title}</h3>
+
+          <p
+            style={{
+              color: "#6B7280",
+              margin: "8px 0",
+            }}
+          >
+            {resource.type}
+          </p>
+
+          <a
+            href={resource.url}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              color: "#4F46E5",
+              fontWeight: "600",
+              textDecoration: "none",
+            }}
+          >
+            Open Resource →
+          </a>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p>No learning resources available.</p>
+  )}
+  </div>
+
+        {/* Future Scope */}
+
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: "20px",
+            padding: "30px",
+            boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
+          }}
+        >
+          <h2>Future Scope</h2>
+
+          <p
+            style={{
+              marginTop: "20px",
+              lineHeight: "1.8",
+              color: "#555",
+              fontSize: "17px",
+            }}
+          >
+            {career.futureScope}
+          </p>
+        </div>
       </div>
 
       <Footer />

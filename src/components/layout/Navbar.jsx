@@ -7,10 +7,14 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
+      {/* Logo */}
       <div className="navbar-logo">
-        SkillPath
+        <NavLink to="/" onClick={() => setMenuOpen(false)}>
+          SkillPath AI
+        </NavLink>
       </div>
 
+      {/* Navigation Links */}
       <div className={`navbar-links ${menuOpen ? "active" : ""}`}>
         <NavLink
           to="/"
@@ -20,6 +24,16 @@ const Navbar = () => {
           onClick={() => setMenuOpen(false)}
         >
           Home
+        </NavLink>
+
+        <NavLink
+          to="/careers"
+          className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }
+          onClick={() => setMenuOpen(false)}
+        >
+          Careers
         </NavLink>
 
         <NavLink
@@ -43,6 +57,7 @@ const Navbar = () => {
         </NavLink>
       </div>
 
+      {/* Mobile Menu Button */}
       <button
         className="navbar-hamburger"
         onClick={() => setMenuOpen(!menuOpen)}
