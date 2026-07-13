@@ -6,6 +6,8 @@ import ContactPage from "./pages/ContactPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import CareersPage from "./pages/CareersPage";
 import CareerDetailsPage from "./pages/CareerDetailsPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   return (
@@ -21,6 +23,10 @@ function App() {
       <Route path="/careers" element={<CareersPage />} />
 
       <Route path="/careers/:id" element={<CareerDetailsPage />} />
+
+      <Route path="/login" element={<LoginPage />} />
+      
+      <Route path="/register" element={<RegisterPage />} />
     </Routes>
   );
 }

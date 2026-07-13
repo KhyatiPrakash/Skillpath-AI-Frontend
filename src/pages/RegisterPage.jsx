@@ -2,7 +2,7 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import AuthForm from "../components/auth/AuthForm";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   return (
     <>
       <Navbar />
@@ -17,7 +17,7 @@ const LoginPage = () => {
           padding: "40px 20px",
         }}
       >
-        <AuthForm type="login" />
+        <AuthForm type="register" />
       </div>
 
       <Footer />
@@ -25,4 +25,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
