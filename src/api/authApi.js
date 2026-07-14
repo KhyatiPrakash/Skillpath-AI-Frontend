@@ -73,3 +73,14 @@ export const getSavedCareers = async () => {
 
   return response.data;
 };
+
+export const removeSavedCareer = async (careerId) => {
+  const response = await axios.delete(
+    `${API_URL}/save-career/${careerId}`,
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
