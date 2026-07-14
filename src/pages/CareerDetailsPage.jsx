@@ -5,6 +5,7 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
 import { getCareerById } from "../api/careerApi";
+import { saveCareer } from "../api/authApi";
 
 const CareerDetailsPage = () => {
   const { id } = useParams();
@@ -26,6 +27,16 @@ const CareerDetailsPage = () => {
 
     fetchCareer();
   }, [id]);
+
+  const handleSaveCareer = async () => {
+    try {
+      await saveCareer(career._id);
+      alert("Career saved successfully ⭐");
+    } catch (error) {
+      console.error(error);
+      alert("Please login first.");
+    }
+  };
 
   if (loading) {
     return (
@@ -148,6 +159,23 @@ const CareerDetailsPage = () => {
 
             <span>📈 {career.difficulty}</span>
           </div>
+
+          <button
+            onClick={handleSaveCareer}
+            style={{
+              marginTop: "25px",
+              padding: "12px 22px",
+              background: "#4F46E5",
+              color: "#fff",
+              border: "none",
+              borderRadius: "10px",
+              cursor: "pointer",
+              fontWeight: "600",
+              fontSize: "15px",
+            }}
+          >
+            ⭐ Save Career
+          </button>
         </div>
 
         {/* Required Skills */}
@@ -222,63 +250,63 @@ const CareerDetailsPage = () => {
         {/* Learning Resources */}
 
         <div
-         style={{
-         background: "#fff",
-    borderRadius: "20px",
-    padding: "30px",
-    boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
-    marginBottom: "30px",
-  }}
->
-  <h2>Learning Resources</h2>
-
-  {career.learningResources?.length > 0 ? (
-    <div
-      style={{
-        marginTop: "20px",
-        display: "grid",
-        gap: "18px",
-      }}
-    >
-      {career.learningResources.map((resource, index) => (
-        <div
-          key={index}
           style={{
-            border: "1px solid #e5e7eb",
-            borderRadius: "12px",
-            padding: "18px",
+            background: "#fff",
+            borderRadius: "20px",
+            padding: "30px",
+            boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
+            marginBottom: "30px",
           }}
         >
-          <h3>{resource.title}</h3>
+          <h2>Learning Resources</h2>
 
-          <p
-            style={{
-              color: "#6B7280",
-              margin: "8px 0",
-            }}
-          >
-            {resource.type}
-          </p>
+          {career.learningResources?.length > 0 ? (
+            <div
+              style={{
+                marginTop: "20px",
+                display: "grid",
+                gap: "18px",
+              }}
+            >
+              {career.learningResources.map((resource, index) => (
+                <div
+                  key={index}
+                  style={{
+                    border: "1px solid #e5e7eb",
+                    borderRadius: "12px",
+                    padding: "18px",
+                  }}
+                >
+                  <h3>{resource.title}</h3>
 
-          <a
-            href={resource.url}
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              color: "#4F46E5",
-              fontWeight: "600",
-              textDecoration: "none",
-            }}
-          >
-            Open Resource →
-          </a>
+                  <p
+                    style={{
+                      color: "#6B7280",
+                      margin: "8px 0",
+                    }}
+                  >
+                    {resource.type}
+                  </p>
+
+                  <a
+                    href={resource.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      color: "#4F46E5",
+                      fontWeight: "600",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Open Resource →
+                  </a>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>No learning resources available.</p>
+          )}
         </div>
-      ))}
-    </div>
-  ) : (
-    <p>No learning resources available.</p>
-  )}
-  </div>
 
         {/* Future Scope */}
 

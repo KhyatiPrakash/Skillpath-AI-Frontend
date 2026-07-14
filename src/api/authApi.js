@@ -38,3 +38,38 @@ export const getProfile = async () => {
 
   return response.data;
 };
+
+export const logoutUser = async () => {
+  const response = await axios.post(
+    `${API_URL}/logout`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
+
+export const saveCareer = async (careerId) => {
+  const response = await axios.post(
+    `${API_URL}/save-career/${careerId}`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
+
+export const getSavedCareers = async () => {
+  const response = await axios.get(
+    `${API_URL}/saved-careers`,
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
