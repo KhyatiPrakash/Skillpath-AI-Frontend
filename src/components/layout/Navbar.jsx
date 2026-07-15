@@ -23,11 +23,13 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       {/* Logo */}
-      <div className="navbar-logo">
-        <NavLink to="/" onClick={() => setMenuOpen(false)}>
-          SkillPath AI
-        </NavLink>
-      </div>
+      <NavLink
+        to="/"
+        className="navbar-logo"
+        onClick={() => setMenuOpen(false)}
+      >
+        SkillPath AI
+      </NavLink>
 
       {/* Navigation */}
       <div className={`navbar-links ${menuOpen ? "active" : ""}`}>
@@ -95,6 +97,28 @@ const Navbar = () => {
           </>
         ) : (
           <>
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+              onClick={() => setMenuOpen(false)}
+            >
+              Dashboard
+            </NavLink>
+
+            {user.role === "admin" && (
+              <NavLink
+                to="/admin"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active" : "nav-link"
+                }
+                onClick={() => setMenuOpen(false)}
+              >
+                Admin
+              </NavLink>
+            )}
+
             <span
               style={{
                 color: "#4F46E5",
